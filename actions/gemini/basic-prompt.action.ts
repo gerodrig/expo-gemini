@@ -13,5 +13,5 @@ export const getBasicPrompt = async (prompt: string): Promise<string> => {
 
   console.log({ data: response.data });
 
-  return response.data;
+  return response.data.trim();
 };
