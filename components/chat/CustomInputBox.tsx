@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 
+import { getGalleryImages } from '@/actions/image-picker/get-gallery-images';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Button, Input, Layout } from '@ui-kitten/components';
@@ -21,6 +22,10 @@ const CustomInputBox = ({ attachments = [], onSendMessage }: Props) => {
 
     onSendMessage(text.trim());
     setText('');
+  };
+
+  const handlePickImages = async () => {
+    const selectedImages = await getGalleryImages();
   };
 
   return (
@@ -52,6 +57,7 @@ const CustomInputBox = ({ attachments = [], onSendMessage }: Props) => {
         }}
       >
         <Button
+          onPress={handlePickImages}
           appearance="ghost"
           accessoryRight={
             <Ionicons name="attach-outline" size={22} color={iconColor} />
