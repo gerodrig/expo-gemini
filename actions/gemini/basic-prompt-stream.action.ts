@@ -1,30 +1,27 @@
 import { fetch } from 'expo/fetch';
+import { promptWithFiles, type FileType } from '../helpers/prompt-with-images';
 // import geminiApi from '../gemini.api';
 
 const API_URL = process.env.EXPO_PUBLIC_GEMINI_API_URL;
-
-export interface FileType {
-  uri: string;
-  fileName?: string;
-  type?: string;
-}
 
 export const getBasicPromptStream = async (
   prompt: string,
   files: FileType[],
   onChunk: (text: string) => void
 ) => {
+  if (files.length > 0) {
+    const response = await promptWithFiles(
+      '/basic-prompt-stream',
+      prompt,
+      files
+    );
+
+    onChunk(response);
+    return;
+  }
+
   const formData = new FormData();
   formData.append('prompt', prompt);
-
-  files.forEach((file) => {
-    formData.append('files', {
-      uri: file.uri,
-      name: file.fileName ?? 'image.jpg',
-      type: file.type ?? 'image/jpeg',
-    } as unknown as Blob);
-  });
-
   try {
     const response = await fetch(`${API_URL}/basic-prompt-stream`, {
       method: 'POST',
