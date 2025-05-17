@@ -16,6 +16,8 @@ interface ImagePlaygroundState {
 
   selectedStyle: string;
 
+  selectedImage: string;
+
   // Actions
   generateImage: (
     prompt: string,
@@ -24,6 +26,7 @@ interface ImagePlaygroundState {
 
   generateNextImage: () => Promise<void>;
   setSelectedStyle: (style: string) => void;
+  setSelectedImage: (imageUrl: string) => void;
 }
 
 export const usePlaygroundStore = create<ImagePlaygroundState>()(
@@ -37,12 +40,15 @@ export const usePlaygroundStore = create<ImagePlaygroundState>()(
     previousImages: [],
 
     selectedStyle: '',
+    selectedImage: '',
 
     // Actions
     generateImage: async (
       prompt: string,
       images: (FileType | ImagePickerAsset)[]
     ): Promise<void> => {
+      const selectedStyle = get().selectedStyle;
+
       set({
         isGenerating: true,
         images: [],
@@ -50,7 +56,9 @@ export const usePlaygroundStore = create<ImagePlaygroundState>()(
         previousImages: images,
       });
 
-      // TODO: aplicar estilo seleccionado
+      if (selectedStyle !== '') {
+        prompt = `${prompt} con un estilo ${selectedStyle}`;
+      }
 
       const { imageUrl } = await GeminiActions.getImageGeneration(
         prompt,
@@ -82,8 +90,11 @@ export const usePlaygroundStore = create<ImagePlaygroundState>()(
       const currentHistory = get().history;
       let previousPrompt = get().previousPrompt;
       const previousImages = get().previousImages;
+      const selectedStyle = get().selectedStyle;
 
-      // TODO: aplicar estilo seleccionado
+      if (selectedStyle !== '') {
+        previousPrompt = `${previousPrompt} con un estilo ${selectedStyle}`;
+      }
 
       set({
         isGenerating: true,
@@ -112,6 +123,15 @@ export const usePlaygroundStore = create<ImagePlaygroundState>()(
       }
 
       set({ selectedStyle: style });
+    },
+
+    setSelectedImage: (imageUrl: string) => {
+      if (imageUrl === get().selectedImage) {
+        set({ selectedStyle: '' });
+        return;
+      }
+
+      set({ selectedImage: imageUrl });
     },
   })
 );

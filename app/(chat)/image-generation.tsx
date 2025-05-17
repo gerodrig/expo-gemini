@@ -12,8 +12,14 @@ const ImageGenerationScreen = () => {
   const selectedStyle = usePlaygroundStore((state) => state.selectedStyle);
   const isGenerating = usePlaygroundStore((state) => state.isGenerating);
 
-  const { setSelectedStyle, generateImage, generateNextImage } =
-    usePlaygroundStore();
+  const selectedImage = usePlaygroundStore((state) => state.selectedImage);
+
+  const {
+    setSelectedStyle,
+    generateImage,
+    generateNextImage,
+    setSelectedImage,
+  } = usePlaygroundStore();
 
   return (
     <Layout style={{ flex: 1 }}>
@@ -45,7 +51,11 @@ const ImageGenerationScreen = () => {
         onSelectStyle={setSelectedStyle}
       />
 
-      <PreviousGenerationsGrid images={imageHistory} />
+      <PreviousGenerationsGrid
+        selectedImage={selectedImage}
+        onSelectedImage={setSelectedImage}
+        images={imageHistory}
+      />
 
       <CustomInputBox onSendMessage={generateImage} />
     </Layout>
