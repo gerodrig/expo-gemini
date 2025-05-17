@@ -1,6 +1,6 @@
-import { List, Layout, Text } from '@ui-kitten/components';
+import { Layout, List, Text } from '@ui-kitten/components';
 import { useState } from 'react';
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 const artStyles = [
   'Realista',
@@ -62,7 +62,9 @@ const styles = StyleSheet.create({
   list: {
     marginVertical: 10,
     paddingHorizontal: 10,
-    height: 60,
+    height: 50,
+    flexGrow: 0,
+    backgroundColor: 'white',
   },
   pill: {
     paddingHorizontal: 16,
