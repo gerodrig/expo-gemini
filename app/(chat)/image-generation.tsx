@@ -12,7 +12,8 @@ const ImageGenerationScreen = () => {
   const selectedStyle = usePlaygroundStore((state) => state.selectedStyle);
   const isGenerating = usePlaygroundStore((state) => state.isGenerating);
 
-  const { setSelectedStyle } = usePlaygroundStore();
+  const { setSelectedStyle, generateImage, generateNextImage } =
+    usePlaygroundStore();
 
   return (
     <Layout style={{ flex: 1 }}>
@@ -33,10 +34,8 @@ const ImageGenerationScreen = () => {
       {generatedImages.length > 0 && (
         <Slideshow
           images={generatedImages}
-          isGenerating
-          onLastImage={() => {
-            console.log('Última imagen generada');
-          }}
+          isGenerating={isGenerating}
+          onLastImage={generateNextImage}
         />
       )}
 
@@ -48,7 +47,7 @@ const ImageGenerationScreen = () => {
 
       <PreviousGenerationsGrid images={imageHistory} />
 
-      <CustomInputBox onSendMessage={() => {}} />
+      <CustomInputBox onSendMessage={generateImage} />
     </Layout>
   );
 };

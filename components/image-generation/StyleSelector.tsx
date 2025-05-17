@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   list: {
     marginVertical: 10,
     paddingHorizontal: 10,
-    height: 50,
+    height: 80,
     flexGrow: 0,
     backgroundColor: 'white',
   },
