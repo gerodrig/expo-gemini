@@ -3,6 +3,7 @@ import { create } from 'zustand';
 import * as GeminiActions from '@/actions/gemini/image-generation.action';
 
 import { FileType } from '@/actions/helpers/prompt-with-images';
+import { urlToImageFile } from '@/actions/helpers/url-to-image-file';
 import { ImagePickerAsset } from 'expo-image-picker';
 
 interface ImagePlaygroundState {
@@ -48,6 +49,7 @@ export const usePlaygroundStore = create<ImagePlaygroundState>()(
       images: (FileType | ImagePickerAsset)[]
     ): Promise<void> => {
       const selectedStyle = get().selectedStyle;
+      const selectedImage = get().selectedImage;
 
       set({
         isGenerating: true,
@@ -58,6 +60,11 @@ export const usePlaygroundStore = create<ImagePlaygroundState>()(
 
       if (selectedStyle !== '') {
         prompt = `${prompt} con un estilo ${selectedStyle}`;
+      }
+
+      if (selectedImage !== '') {
+        const imageFile = await urlToImageFile(selectedImage);
+        images.push(imageFile);
       }
 
       const { imageUrl } = await GeminiActions.getImageGeneration(
@@ -127,7 +134,7 @@ export const usePlaygroundStore = create<ImagePlaygroundState>()(
 
     setSelectedImage: (imageUrl: string) => {
       if (imageUrl === get().selectedImage) {
-        set({ selectedStyle: '' });
+        set({ selectedImage: '' });
         return;
       }
 
