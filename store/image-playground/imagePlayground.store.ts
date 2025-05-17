@@ -50,6 +50,8 @@ export const usePlaygroundStore = create<ImagePlaygroundState>()(
         previousImages: images,
       });
 
+      // TODO: aplicar estilo seleccionado
+
       const { imageUrl } = await GeminiActions.getImageGeneration(
         prompt,
         images
@@ -75,7 +77,34 @@ export const usePlaygroundStore = create<ImagePlaygroundState>()(
       }, 500);
     },
 
-    generateNextImage: async (): Promise<void> => {},
+    generateNextImage: async (): Promise<void> => {
+      const currentImages = get().images;
+      const currentHistory = get().history;
+      let previousPrompt = get().previousPrompt;
+      const previousImages = get().previousImages;
+
+      // TODO: aplicar estilo seleccionado
+
+      set({
+        isGenerating: true,
+      });
+
+      const { imageUrl } = await GeminiActions.getImageGeneration(
+        previousPrompt,
+        previousImages
+      );
+
+      if (imageUrl === '') {
+        set({ isGenerating: false });
+        return;
+      }
+
+      set({
+        isGenerating: false,
+        images: [...currentImages, imageUrl],
+        history: [imageUrl, ...currentHistory],
+      });
+    },
     setSelectedStyle: (style: string) => {
       if (style === get().selectedStyle) {
         set({ selectedStyle: '' });
