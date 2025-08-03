@@ -12,20 +12,20 @@ interface ListItemProps {
 
 const routes: ListItemProps[] = [
   {
-    title: 'Prompt básico',
-    description: 'Consultas con una única respuesta',
+    title: 'Basic Prompt',
+    description: 'Single-response queries',
     icon: 'chatbubble-outline',
     link: '/basic-prompt',
   },
   {
-    title: 'Historial conversacional',
-    description: 'Mantener un historial de conversaciones',
+    title: 'Conversation History',
+    description: 'Maintain a history of conversations',
     icon: 'book-outline',
     link: '/chat-history',
   },
   {
-    title: 'Generar imágenes',
-    description: 'Generación y edición de imágenes con AI',
+    title: 'Generate Images',
+    description: 'AI-powered image generation and editing',
     icon: 'image-outline',
     link: '/image-generation',
   },

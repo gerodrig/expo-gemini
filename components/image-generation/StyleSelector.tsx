@@ -1,31 +1,28 @@
-import { List, Layout, Text } from '@ui-kitten/components';
-import { useState } from 'react';
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import { Layout, List, Text } from '@ui-kitten/components';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
-const artStyles = [
-  'Realista',
+const DEFAULT_ART_STYLES = [
+  'Realistic',
   'Anime',
   'Manga',
   'Pixel Art',
   'Vectorial',
-  'Abstracto',
+  'Abstract',
 ];
 
 interface Props {
+  artStyles?: string[];
+  selectedStyle: string;
   onSelectStyle: (style: string) => void;
 }
 
-const StyleSelector = ({ onSelectStyle }: Props) => {
-  const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
+const StyleSelector = ({
+  onSelectStyle,
+  selectedStyle,
+  artStyles = DEFAULT_ART_STYLES,
+}: Props) => {
 
   const handleSelectStyle = (style: string) => {
-    if (selectedStyle === style) {
-      setSelectedStyle(null);
-      onSelectStyle('');
-      return;
-    }
-
-    setSelectedStyle(style);
     onSelectStyle(style);
   };
 
@@ -62,7 +59,9 @@ const styles = StyleSheet.create({
   list: {
     marginVertical: 10,
     paddingHorizontal: 10,
-    height: 60,
+    height: 50,
+    flexGrow: 0,
+    backgroundColor: 'white',
   },
   pill: {
     paddingHorizontal: 16,

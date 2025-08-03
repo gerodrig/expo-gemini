@@ -1,16 +1,44 @@
 import { Button, Input, Layout } from '@ui-kitten/components';
-import { KeyboardAvoidingView, Platform } from 'react-native';
+import { ImagePickerAsset } from 'expo-image-picker';
+import { useState } from 'react';
+import { Image, KeyboardAvoidingView, Platform } from 'react-native';
 
+import { getGalleryImages } from '@/actions/image-picker/get-gallery-images';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import Ionicons from '@expo/vector-icons/Ionicons';
+
 interface Props {
   attachments?: any[];
-  onSendMessage: (message: string, attachments?: any[]) => void;
+  onSendMessage: (message: string, attachments: ImagePickerAsset[]) => void;
 }
 
-const CustomInputBox = ({ attachments = [], onSendMessage }: Props) => {
+const CustomInputBox = ({ onSendMessage }: Props) => {
   const isAndroid = Platform.OS === 'android';
   const iconColor = useThemeColor({}, 'icon');
+
+  const [text, setText] = useState<string>('');
+  const [images, setImages] = useState<ImagePickerAsset[]>([]);
+
+  const handleSendMessage = () => {
+    //TODO: setup validations
+
+    onSendMessage(text.trim(), images);
+    setText('');
+    setImages([]);
+  };
+
+  const handlePickImages = async () => {
+    const selectedImages = await getGalleryImages();
+
+    if (selectedImages.length === 0 || images.length >= 4) return;
+
+    const availableSlots = 4 - images.length;
+    const imagesToAdd = selectedImages.slice(0, availableSlots);
+
+    if (imagesToAdd.length > 0) {
+      setImages([...images, ...imagesToAdd]);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -26,10 +54,13 @@ const CustomInputBox = ({ attachments = [], onSendMessage }: Props) => {
           gap: 10,
         }}
       >
-        {/* <Image
-          source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
-          style={{ width: 50, height: 50, marginTop: 5 }}
-        /> */}
+        {images.map((image) => (
+          <Image
+            key={image.uri}
+            source={{ uri: image.uri }}
+            style={{ width: 50, height: 50, marginTop: 5, borderRadius: 5 }}
+          />
+        ))}
       </Layout>
 
       {/* Espacio para escribir y enviar mensaje */}
@@ -41,18 +72,22 @@ const CustomInputBox = ({ attachments = [], onSendMessage }: Props) => {
         }}
       >
         <Button
+          onPress={handlePickImages}
           appearance="ghost"
           accessoryRight={
             <Ionicons name="attach-outline" size={22} color={iconColor} />
           }
         />
         <Input
-          placeholder="Escribe tu mensaje"
+          placeholder="Type your message"
           multiline
           numberOfLines={4}
           style={{ flex: 1 }}
+          value={text}
+          onChangeText={setText}
         />
         <Button
+          onPress={handleSendMessage}
           appearance="ghost"
           accessoryRight={
             <Ionicons name="paper-plane-outline" size={22} color={iconColor} />

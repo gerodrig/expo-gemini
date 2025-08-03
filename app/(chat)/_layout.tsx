@@ -10,14 +10,14 @@ export default function ChatLayout() {
       <Stack
         screenOptions={{
           headerShadowVisible: false,
-          headerBackTitle: 'Volver',
+          headerBackTitle: 'Back',
           headerTintColor: iconColor,
         }}
       >
         <Stack.Screen name="index" options={{ title: 'Gemini AI' }} />
         <Stack.Screen
           name="basic-prompt"
-          options={{ title: 'Prompt básico' }}
+          options={{ title: 'Basic Prompt' }}
         />
       </Stack>
     </Layout>

@@ -1,50 +1,93 @@
-# Welcome to your Expo app 👋
+# Expo Gemini
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a React Native application built with Expo that integrates with the Gemini API to provide various AI-powered features.
 
-## Get started
+## Features
 
-1. Install dependencies
+*   **Basic Prompt:** Send single-response queries to the Gemini API.
+*   **Conversation History:** Maintain a history of your conversations with the Gemini API.
+*   **Image Generation:** Generate images using the Gemini API.
 
-   ```bash
-   npm install
-   ```
+## Tech Stack
 
-2. Start the app
+*   **React Native:** A framework for building native apps using React.
+*   **Expo:** A platform for making universal React applications.
+*   **TypeScript:** A typed superset of JavaScript that compiles to plain JavaScript.
+*   **UI Kitten:** A React Native UI library that provides a set of customizable and reusable components.
+*   **Zustand:** A small, fast and scalable bearbones state-management solution.
+*   **Axios:** A promise-based HTTP client for the browser and node.js.
+*   **Expo Router:** A file-based router for React Native and web applications.
 
-   ```bash
-   npx expo start
-   ```
+## Getting Started
 
-In the output, you'll find options to open the app in a
+### Prerequisites
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+*   Node.js (v18 or newer)
+*   Yarn or npm
+*   Expo CLI
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Installation
 
-## Get a fresh project
+1.  Clone the repository:
 
-When you're ready, run:
+    ```bash
+    git clone https://github.com/your-username/expo-gemini.git
+    ```
 
-```bash
-npm run reset-project
-```
+2.  Install the dependencies:
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+    ```bash
+    cd expo-gemini
+    npm install
+    ```
 
-## Learn more
+3.  Set up your environment variables. Create a `.env` file in the root of the project and add the following:
 
-To learn more about developing your project with Expo, look at the following resources:
+    ```bash
+    EXPO_PUBLIC_GEMINI_API_URL=<your-gemini-api-url>
+    ```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+    You can find the template for the `.env` file in `.env.template`.
 
-## Join the community
+### Running the application
 
-Join our community of developers creating universal apps.
+To run the application, use one of the following commands:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+*   To run on iOS:
+
+    ```bash
+    npm run ios
+    ```
+
+*   To run on Android:
+
+    ```bash
+    npm run android
+    ```
+
+*   To run on the web:
+
+    ```bash
+    npm run web
+    ```
+
+## Project Structure
+
+The project is structured as follows:
+
+*   `actions`: Contains all the actions that can be dispatched from the components.
+*   `app`: Contains all the screens of the application.
+*   `assets`: Contains all the static assets of the application, such as images and fonts.
+*   `components`: Contains all the reusable components of the application.
+*   `constants`: Contains all the constants of the application, such as colors and themes.
+*   `hooks`: Contains all the custom hooks of the application.
+*   `interfaces`: Contains all the interfaces of the application.
+*   `store`: Contains all the stores of the application.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a pull request.
+
+## License
+
+This project is licensed under the MIT License.

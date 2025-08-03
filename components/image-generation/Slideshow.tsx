@@ -1,7 +1,10 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet, useWindowDimensions } from 'react-native';
 
-import { Layout, Spinner, ViewPager } from '@ui-kitten/components';
+import { useSharedValue } from 'react-native-reanimated';
+import Carousel from 'react-native-reanimated-carousel';
+
+import { Layout, Spinner } from '@ui-kitten/components';
 interface Props {
   images: string[];
   isGenerating?: boolean;
@@ -10,6 +13,8 @@ interface Props {
 
 const Slideshow = ({ images, isGenerating = false, onLastImage }: Props) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const window = useWindowDimensions();
+  const progress = useSharedValue<number>(0);
 
   // Determinar si es la última imagen y llamar a la función onLastImage
   useEffect(() => {
@@ -20,23 +25,35 @@ const Slideshow = ({ images, isGenerating = false, onLastImage }: Props) => {
 
   return (
     <Fragment>
-      {/* Image Slideshow */}
-      <ViewPager
-        selectedIndex={selectedIndex}
-        style={{ marginTop: 15 }}
-        onSelect={(index) => setSelectedIndex(index)}
-      >
-        {images.map((image) => (
-          <Layout style={styles.tab} key={image}>
-            <Image
-              source={{
-                uri: image,
-              }}
-              style={styles.imageSlide}
-            />
-          </Layout>
-        ))}
-      </ViewPager>
+      <Carousel
+        data={images}
+        height={258}
+        loop={false}
+        pagingEnabled={true}
+        snapEnabled={true}
+        width={window.width}
+        style={{
+          width: window.width,
+        }}
+        mode="parallax"
+        modeConfig={{
+          parallaxScrollingScale: 0.9,
+          parallaxScrollingOffset: 50,
+        }}
+        onSnapToItem={setSelectedIndex}
+        onProgressChange={progress}
+        renderItem={({ item }) => (
+          <Image
+            source={{ uri: item }}
+            style={{
+              width: window.width,
+              height: 258,
+              borderRadius: 16,
+            }}
+          />
+        )}
+      />
+
 
       {/* Bullet Container */}
       <Layout style={{ marginTop: 20 }}>
